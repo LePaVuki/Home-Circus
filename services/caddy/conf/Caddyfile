@@ -1,0 +1,3 @@
+broken-antler.tplinkdns.com {
+    reverse_proxy openwebui:8080
+}
