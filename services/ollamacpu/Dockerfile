@@ -1,1 +1,0 @@
-# Ollama LLM provider, configured to run on host CPU

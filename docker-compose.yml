@@ -1,0 +1,124 @@
+name: home-circus
+
+services:
+
+  open-webui:
+    build: services/open-webui/
+    container_name: open-webui
+    networks:
+      - frontend
+      - backend
+    ports:
+      - "3000:8080"
+    volumes:
+      - open-webui:/app/backend/data
+    depends_on:
+      ollama-cpu:
+        condition: service_healthy
+      ollama-gpu:
+        condition: service_healthy
+      open-terminal:
+        condition: service_healthy
+    healthcheck:
+      test: ["CMD", "curl", "-f", "localhost:8080/health"]
+      interval: 30s
+      timeout: 5s
+      retries: 5
+      start_period: 10s
+    restart: unless-stopped
+
+  open-terminal:
+    build: services/open-terminal/
+    container_name: open-terminal
+    networks:
+      - backend
+    ports:
+      - "4000:8000"
+    volumes:
+      - open-terminal:/home/user
+    env_file: services/open-terminal/.env
+    healthcheck:
+      test: ["CMD", "curl", "-f", "localhost:8000/health"]
+      interval: 30s
+      timeout: 5s
+      retries: 5
+      start_period: 10s
+    restart: unless-stopped
+
+  ollama-cpu:
+    build: services/ollama-cpu
+    container_name: ollama-cpu
+    networks:
+      - backend
+    ports:
+      - "11434:11434"
+    volumes:
+      - ollama:/root/.ollama
+    healthcheck:
+      test: ["CMD", "curl", "-f", "localhost:11434"]
+      interval: 30s
+      timeout: 5s
+      retries: 5
+      start_period: 10s
+    restart: unless-stopped
+
+  ollama-gpu:
+    build: services/ollama-gpu/
+    container_name: ollama-gpu
+    networks:
+      - backend
+    ports:
+      - "11435:11434"
+    volumes:
+      - ollama:/root/.ollama
+    deploy:
+      resources:
+        reservations:
+          devices:
+            - driver: nvidia
+              count: 1
+              capabilities: [ gpu ]
+    healthcheck:
+      test: ["CMD", "curl", "-f", "localhost:11434"]
+      interval: 30s
+      timeout: 5s
+      retries: 5
+      start_period: 10s
+    restart: unless-stopped
+
+  caddy:
+    build: services/caddy/
+    container_name: caddy
+    networks:
+      - frontend
+    ports:
+      - "80:80"
+      - "443:443"
+    volumes:
+      - caddy-data:/data
+      - caddy-config:/config
+    depends_on:
+      open-webui:
+        condition: service_healthy
+    restart: unless-stopped
+    develop:
+      watch:
+      - action: sync+restart
+        path: ./services/caddy/conf
+        target: /etc/caddy
+
+volumes:
+  open-webui:
+    name: open-webui
+  open-terminal:
+    name: open-terminal
+  caddy-data:
+    name: caddy-data
+  caddy-config:
+    name: caddy-config
+  ollama:
+    name: ollama
+
+networks:
+  frontend:
+  backend:
