@@ -3,7 +3,9 @@ name: home-circus
 services:
 
   open-webui:
-    build: services/open-webui/
+    build:
+      context: services/open-webui/
+      dockerfile: open-webui.Dockerfile
     container_name: open-webui
     networks:
       - frontend
@@ -13,8 +15,6 @@ services:
     volumes:
       - open-webui:/app/backend/data
     depends_on:
-      ollama-cpu:
-        condition: service_healthy
       ollama-gpu:
         condition: service_healthy
       open-terminal:
@@ -28,7 +28,9 @@ services:
     restart: unless-stopped
 
   open-terminal:
-    build: services/open-terminal/
+    build:
+      context: services/open-terminal/
+      dockerfile: open-terminal.Dockerfile
     container_name: open-terminal
     networks:
       - backend
@@ -45,25 +47,10 @@ services:
       start_period: 10s
     restart: unless-stopped
 
-  ollama-cpu:
-    build: services/ollama-cpu
-    container_name: ollama-cpu
-    networks:
-      - backend
-    ports:
-      - "11434:11434"
-    volumes:
-      - ollama:/root/.ollama
-    healthcheck:
-      test: ["CMD", "curl", "-f", "localhost:11434"]
-      interval: 30s
-      timeout: 5s
-      retries: 5
-      start_period: 10s
-    restart: unless-stopped
-
   ollama-gpu:
-    build: services/ollama-gpu/
+    build: 
+      context: services/ollama-gpu
+      dockerfile: ollama.Dockerfile
     container_name: ollama-gpu
     networks:
       - backend
@@ -87,7 +74,9 @@ services:
     restart: unless-stopped
 
   caddy:
-    build: services/caddy/
+    build:
+      context: services/caddy/
+      dockerfile: caddy.Dockerfile
     container_name: caddy
     networks:
       - frontend
@@ -107,6 +96,40 @@ services:
         path: ./services/caddy/conf
         target: /etc/caddy
 
+  prom:
+    build:
+      context: services/prom/
+      dockerfile: prom.Dockerfile
+    container_name: prom
+    networks:
+      - backend
+      - frontend
+    ports:
+      - "9090:9090"
+    volumes:
+      - prom-data:/prometheus
+    restart: unless-stopped
+    develop:
+      watch:
+      - action: sync+restart
+        path: ./services/prom/conf
+        target: /etc/prometheus
+  
+  grafana:
+    build:
+      context: services/grafana/
+      dockerfile: grafana.Dockerfile
+    container_name: grafana
+    networks:
+      - backend
+      - frontend
+    ports:
+      - 2999:3000
+    volumes:
+      - grafana-data:/var/lib/grafana
+    restart: unless-stopped
+
+
 volumes:
   open-webui:
     name: open-webui
@@ -118,6 +141,10 @@ volumes:
     name: caddy-config
   ollama:
     name: ollama
+  prom-data:
+    name: prom-data
+  grafana-data:
+    name: grafana-data
 
 networks:
   frontend:
