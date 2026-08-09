@@ -1,7 +1,7 @@
 services:
   grafana:
     build:
-      context: services/grafana/
+      context: ./
       dockerfile: grafana.Dockerfile
     container_name: grafana
     networks:
