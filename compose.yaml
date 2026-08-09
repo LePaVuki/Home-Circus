@@ -1,151 +1,17 @@
 name: home-circus
 
-services:
-
-  open-webui:
-    build:
-      context: services/open-webui/
-      dockerfile: open-webui.Dockerfile
-    container_name: open-webui
-    networks:
-      - frontend
-      - backend
-    ports:
-      - "3000:8080"
-    volumes:
-      - open-webui:/app/backend/data
-    depends_on:
-      ollama-gpu:
-        condition: service_healthy
-      open-terminal:
-        condition: service_healthy
-    healthcheck:
-      test: ["CMD", "curl", "-f", "localhost:8080/health"]
-      interval: 30s
-      timeout: 5s
-      retries: 5
-      start_period: 10s
-    restart: unless-stopped
-
-  open-terminal:
-    build:
-      context: services/open-terminal/
-      dockerfile: open-terminal.Dockerfile
-    container_name: open-terminal
-    networks:
-      - backend
-    ports:
-      - "4000:8000"
-    volumes:
-      - open-terminal:/home/user
-    env_file: services/open-terminal/.env
-    healthcheck:
-      test: ["CMD", "curl", "-f", "localhost:8000/health"]
-      interval: 30s
-      timeout: 5s
-      retries: 5
-      start_period: 10s
-    restart: unless-stopped
-
-  ollama-gpu:
-    build: 
-      context: services/ollama-gpu
-      dockerfile: ollama.Dockerfile
-    container_name: ollama-gpu
-    networks:
-      - backend
-    ports:
-      - "11435:11434"
-    volumes:
-      - ollama:/root/.ollama
-    deploy:
-      resources:
-        reservations:
-          devices:
-            - driver: nvidia
-              count: 1
-              capabilities: [ gpu ]
-    healthcheck:
-      test: ["CMD", "curl", "-f", "localhost:11434"]
-      interval: 30s
-      timeout: 5s
-      retries: 5
-      start_period: 10s
-    restart: unless-stopped
-
-  caddy:
-    build:
-      context: services/caddy/
-      dockerfile: caddy.Dockerfile
-    container_name: caddy
-    networks:
-      - frontend
-    ports:
-      - "80:80"
-      - "443:443"
-    volumes:
-      - caddy-data:/data
-      - caddy-config:/config
-    depends_on:
-      open-webui:
-        condition: service_healthy
-    restart: unless-stopped
-    develop:
-      watch:
-      - action: sync+restart
-        path: ./services/caddy/conf
-        target: /etc/caddy
-
-  prom:
-    build:
-      context: services/prom/
-      dockerfile: prom.Dockerfile
-    container_name: prom
-    networks:
-      - backend
-      - frontend
-    ports:
-      - "9090:9090"
-    volumes:
-      - prom-data:/prometheus
-    restart: unless-stopped
-    develop:
-      watch:
-      - action: sync+restart
-        path: ./services/prom/conf
-        target: /etc/prometheus
-  
-  grafana:
-    build:
-      context: services/grafana/
-      dockerfile: grafana.Dockerfile
-    container_name: grafana
-    networks:
-      - backend
-      - frontend
-    ports:
-      - 2999:3000
-    volumes:
-      - grafana-data:/var/lib/grafana
-    restart: unless-stopped
-
-
-volumes:
-  open-webui:
-    name: open-webui
-  open-terminal:
-    name: open-terminal
-  caddy-data:
-    name: caddy-data
-  caddy-config:
-    name: caddy-config
-  ollama:
-    name: ollama
-  prom-data:
-    name: prom-data
-  grafana-data:
-    name: grafana-data
-
 networks:
   frontend:
+    name: frontend
+    driver: bridge
   backend:
+    name: backend
+    driver: bridge
+
+include:
+  - services/caddy/compose.yaml
+  - services/open-webui/compose.yaml
+  - services/ollama-gpu/compose.yaml
+  - services/open-terminal/compose.yaml
+  # - services/prom/compose.yaml
+  # - services/grafana/compose.yaml

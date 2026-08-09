@@ -1,0 +1,23 @@
+services:
+  prom:
+    build:
+      context: ./
+      dockerfile: prom.Dockerfile
+    container_name: prom
+    networks:
+      - backend
+      - frontend
+    ports:
+      - "9090:9090"
+    volumes:
+      - prom-data:/prometheus
+    restart: unless-stopped
+    develop:
+      watch:
+      - action: sync+restart
+        path: ./services/prom/conf
+        target: /etc/prometheus
+
+volumes:
+  prom-data:
+    name: prom-data
