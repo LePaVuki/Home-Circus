@@ -1,0 +1,16 @@
+services:
+  authelia:
+    build:
+      context: ./
+      dockerfile: authelia.Dockerfile
+    container_name: authelia
+    environment:
+      - TZ=UTC
+    networks:
+      - frontend
+    volumes:
+      - ./config:/config
+    depends_on:
+      caddy:
+        condition: service_healthy
+    restart: unless-stopped
