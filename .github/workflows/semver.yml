@@ -1,0 +1,48 @@
+name: Generate SemVer
+
+on:
+  push:
+    branches: [main, release/*]
+  pull_request:
+    types: [opened, reopened]
+
+jobs:
+  versioning:
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v7
+        with:
+          fetch-depth: 0
+          fetch-tags: true
+
+      - name: Install GitVersion
+        uses: gittools/actions/gitversion/setup@v4.7.0
+        with:
+          versionSpec: "6.x"
+
+      - name: Determine Version
+        id: gitversion
+        uses: gittools/actions/gitversion/execute@v4.7.0
+        with:
+          updateAssemblyInfo: true
+        
+      - name: Display GitVersion outputs
+        run: |
+          echo "FullSemVer: ${{ steps.gitversion.outputs.fullSemVer }}"
+
+      - name: Tag commit
+        run: |
+          TAG_NAME="v${{ steps.gitversion.outputs.majorMinorPatch }}"
+
+          echo "Evaluated version: $TAG_NAME"
+
+          if git rev-parse "$TAG_NAME" >/dev/null 2>&1; then
+            echo "Tag $TAG_NAME already exists! Skipping to avoid build failures."
+          else
+            echo "Tag $TAG_NAME doesn't exist, creating and pushing to origin."
+            git tag "$TAG_NAME"
+            git push origin "$TAG_NAME"
+          fi
