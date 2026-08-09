@@ -2,6 +2,18 @@
     email {$ACME_EMAIL}
 }
 
-{$CADDY_DOMAIN} {
+(authelia-auth) {
+    forward_auth authelia:9091 {
+        uri /api/verify?rd=https://{$CADDY_DOMAIN}
+        copy_headers Remote-User Remote-Groups Remote-Name Remote-Email
+    }
+}
+
+auth.{$CADDY_DOMAIN} {
+    reverse_proxy authelia:9091
+}
+
+chat.{$CADDY_DOMAIN} {
+    import authelia-auth
     reverse_proxy open-webui:8080
 }
