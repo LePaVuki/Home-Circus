@@ -59,19 +59,7 @@ services:
 
 
   
-  grafana:
-    build:
-      context: services/grafana/
-      dockerfile: grafana.Dockerfile
-    container_name: grafana
-    networks:
-      - backend
-      - frontend
-    ports:
-      - 2999:3000
-    volumes:
-      - grafana-data:/var/lib/grafana
-    restart: unless-stopped
+
 
 
 volumes:
@@ -79,8 +67,7 @@ volumes:
     name: open-terminal
   ollama:
     name: ollama
-  grafana-data:
-    name: grafana-data
+  
 
 networks:
   frontend:
