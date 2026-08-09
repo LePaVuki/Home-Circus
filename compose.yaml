@@ -10,25 +10,7 @@ include:
 
 services:
 
-  open-terminal:
-    build:
-      context: services/open-terminal/
-      dockerfile: open-terminal.Dockerfile
-    container_name: open-terminal
-    networks:
-      - backend
-    ports:
-      - "4000:8000"
-    volumes:
-      - open-terminal:/home/user
-    env_file: services/open-terminal/.env
-    healthcheck:
-      test: ["CMD", "curl", "-f", "localhost:8000/health"]
-      interval: 30s
-      timeout: 5s
-      retries: 5
-      start_period: 10s
-    restart: unless-stopped
+
 
   ollama-gpu:
     build: 
@@ -63,8 +45,6 @@ services:
 
 
 volumes:
-  open-terminal:
-    name: open-terminal
   ollama:
     name: ollama
   
