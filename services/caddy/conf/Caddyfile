@@ -4,16 +4,16 @@
 
 (authelia-auth) {
     forward_auth authelia:9091 {
-        uri /api/verify?rd=https://{$CADDY_DOMAIN}
+        uri /api/verify?rd=https://{$ROOT_DOMAIN}/
         copy_headers Remote-User Remote-Groups Remote-Name Remote-Email
     }
 }
 
-auth.{$CADDY_DOMAIN} {
+auth.{$ROOT_DOMAIN} {
     reverse_proxy authelia:9091
 }
 
-chat.{$CADDY_DOMAIN} {
+chat.{$ROOT_DOMAIN} {
     import authelia-auth
     reverse_proxy open-webui:8080
 }

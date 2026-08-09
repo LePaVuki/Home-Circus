@@ -6,7 +6,7 @@ services:
     container_name: caddy
     environment:
       - ACME_EMAIL=$ACME_EMAIL
-      - CADDY_DOMAIN=$CADDY_DOMAIN
+      - ROOT_DOMAIN=$ROOT_DOMAIN
     networks:
       - frontend
     ports:
