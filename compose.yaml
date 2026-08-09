@@ -2,7 +2,9 @@ name: home-circus
 
 networks:
   frontend:
+    driver: bridge
   backend:
+    driver: bridge
 
 include:
   - services/open-webui/compose.yaml
