@@ -10,31 +10,6 @@ include:
 
 services:
 
-  open-webui:
-    build:
-      context: services/open-webui/
-      dockerfile: open-webui.Dockerfile
-    container_name: open-webui
-    networks:
-      - frontend
-      - backend
-    ports:
-      - "3000:8080"
-    volumes:
-      - open-webui:/app/backend/data
-    depends_on:
-      ollama-gpu:
-        condition: service_healthy
-      open-terminal:
-        condition: service_healthy
-    healthcheck:
-      test: ["CMD", "curl", "-f", "localhost:8080/health"]
-      interval: 30s
-      timeout: 5s
-      retries: 5
-      start_period: 10s
-    restart: unless-stopped
-
   open-terminal:
     build:
       context: services/open-terminal/
