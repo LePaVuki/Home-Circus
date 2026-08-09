@@ -10,7 +10,7 @@ services:
       - "4000:8000"
     volumes:
       - open-terminal:/home/user
-    env_file: services/open-terminal/.env
+    env_file: .env
     healthcheck:
       test: ["CMD", "curl", "-f", "localhost:8000/health"]
       interval: 30s
