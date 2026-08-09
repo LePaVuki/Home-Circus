@@ -1,5 +1,9 @@
 name: home-circus
 
+networks:
+  frontend:
+  backend:
+
 include:
   - services/open-webui/compose.yaml
   - services/open-terminal/compose.yaml
@@ -7,7 +11,3 @@ include:
   - services/caddy/compose.yaml
   - services/prom/compose.yaml
   - services/grafana/compose.yaml
-
-networks:
-  frontend:
-  backend:
