@@ -1,5 +1,13 @@
 name: home-circus
 
+include:
+  - services/open-webui/compose.yaml
+  - services/open-terminal/compose.yaml
+  - services/ollama-gpu/compose.yaml
+  - services/caddy/compose.yaml
+  - services/prom/compose.yaml
+  - services/grafana/compose.yaml
+
 services:
 
   open-webui:
