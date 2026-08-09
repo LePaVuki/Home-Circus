@@ -1,11 +1,11 @@
-broken-antler.tplinkdns.com {
+{
+    email {$CADDY_EMAIL}
+}
+
+{$CADDY_DOMAIN} {
     reverse_proxy open-webui:8080
 }
 
-chat.broken-antler.tplinkdns.com {
+chat.{$CADDY_DOMAIN} {
     reverse_proxy open-webui:8080
-}
-
-image.broken-antler.tplinkdns.com {
-    reverse_proxy comfyui-nvidia:8188
 }
