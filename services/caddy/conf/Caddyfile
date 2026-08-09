@@ -5,7 +5,3 @@
 {$CADDY_DOMAIN} {
     reverse_proxy open-webui:8080
 }
-
-chat.{$CADDY_DOMAIN} {
-    reverse_proxy open-webui:8080
-}
