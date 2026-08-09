@@ -22,7 +22,3 @@ services:
 volumes:
   open-terminal:
     name: open-terminal
-
-networks:
-  backend:
-    external: true

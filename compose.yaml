@@ -2,8 +2,10 @@ name: home-circus
 
 networks:
   frontend:
+    name: frontend
     driver: bridge
   backend:
+    name: backend
     driver: bridge
 
 include:

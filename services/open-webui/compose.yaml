@@ -27,10 +27,3 @@ services:
 volumes:
   open-webui:
     name: open-webui
-
-networks:
-  frontend:
-    external: true
-  backend:
-    external: true
-      

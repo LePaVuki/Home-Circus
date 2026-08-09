@@ -22,7 +22,3 @@ volumes:
     name: caddy-data
   caddy-config:
     name: caddy-config
-
-networks:
-  frontend:
-    external: true

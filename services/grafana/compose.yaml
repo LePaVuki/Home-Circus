@@ -16,9 +16,3 @@ services:
 volumes:
   grafana-data:
     name: grafana-data
-
-networks:
-  backend:
-    external: true
-  frontend:
-    external: true
