@@ -56,28 +56,6 @@ services:
       start_period: 10s
     restart: unless-stopped
 
-  caddy:
-    build:
-      context: services/caddy/
-      dockerfile: caddy.Dockerfile
-    container_name: caddy
-    networks:
-      - frontend
-    ports:
-      - "80:80"
-      - "443:443"
-    volumes:
-      - caddy-data:/data
-      - caddy-config:/config
-    depends_on:
-      open-webui:
-        condition: service_healthy
-    restart: unless-stopped
-    develop:
-      watch:
-      - action: sync+restart
-        path: ./services/caddy/conf
-        target: /etc/caddy
 
   prom:
     build:
@@ -116,10 +94,6 @@ services:
 volumes:
   open-terminal:
     name: open-terminal
-  caddy-data:
-    name: caddy-data
-  caddy-config:
-    name: caddy-config
   ollama:
     name: ollama
   prom-data:

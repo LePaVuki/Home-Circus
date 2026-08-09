@@ -2,10 +2,10 @@ broken-antler.tplinkdns.com {
     reverse_proxy open-webui:8080
 }
 
-broken-antler.tplinkdns.com/chat {
+chat.broken-antler.tplinkdns.com {
     reverse_proxy open-webui:8080
 }
 
-broken-antler.tplinkdns.com/image {
+image.broken-antler.tplinkdns.com {
     reverse_proxy comfyui-nvidia:8188
 }
