@@ -20,6 +20,8 @@ services:
     depends_on:
       open-webui:
         condition: service_healthy
+      authelia:
+        condition: service_healthy
     restart: unless-stopped
 
 volumes:

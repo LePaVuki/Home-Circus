@@ -10,7 +10,10 @@ services:
       - frontend
     volumes:
       - ./config:/config
-    depends_on:
-      caddy:
-        condition: service_healthy
     restart: unless-stopped
+    healthcheck:
+      test: ["CMD", "/app/healthcheck.sh"]
+      interval: 30s
+      timeout: 3s
+      retries: 3
+      start_period: 1m
