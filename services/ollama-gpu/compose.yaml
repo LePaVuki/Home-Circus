@@ -1,0 +1,30 @@
+services:
+  ollama-gpu:
+    build: 
+      context: ./
+      dockerfile: ollama.Dockerfile
+    container_name: ollama-gpu
+    networks:
+      - backend
+    ports:
+      - "11434:11434"
+    volumes:
+      - ../.ollama:/root/.ollama
+    deploy:
+      resources:
+        reservations:
+          devices:
+            - driver: nvidia
+              count: 1
+              capabilities: [ gpu ]
+    healthcheck:
+      test: ["CMD", "curl", "-f", "localhost:11434"]
+      interval: 30s
+      timeout: 5s
+      retries: 5
+      start_period: 10s
+    restart: unless-stopped
+
+networks:
+  frontend:
+  backend:
