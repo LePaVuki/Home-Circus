@@ -114,8 +114,6 @@ services:
 
 
 volumes:
-  open-webui:
-    name: open-webui
   open-terminal:
     name: open-terminal
   caddy-data:
