@@ -1,7 +1,7 @@
 services:
   prom:
     build:
-      context: services/prom/
+      context: ./
       dockerfile: prom.Dockerfile
     container_name: prom
     networks:
