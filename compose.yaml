@@ -57,24 +57,7 @@ services:
     restart: unless-stopped
 
 
-  prom:
-    build:
-      context: services/prom/
-      dockerfile: prom.Dockerfile
-    container_name: prom
-    networks:
-      - backend
-      - frontend
-    ports:
-      - "9090:9090"
-    volumes:
-      - prom-data:/prometheus
-    restart: unless-stopped
-    develop:
-      watch:
-      - action: sync+restart
-        path: ./services/prom/conf
-        target: /etc/prometheus
+
   
   grafana:
     build:
@@ -96,8 +79,6 @@ volumes:
     name: open-terminal
   ollama:
     name: ollama
-  prom-data:
-    name: prom-data
   grafana-data:
     name: grafana-data
 
