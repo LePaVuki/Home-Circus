@@ -1,0 +1,14 @@
+###############################################################
+#                         Users Database                      #
+###############################################################
+
+# List of users
+users:
+  <USERNAME>:
+    disabled: false
+    displayname: '<DISPLAYNAME>'
+    password: '<PASSWORD>'
+    email: '<USERNAME>@example.com'
+    groups:
+      - 'admins'
+      - 'dev'

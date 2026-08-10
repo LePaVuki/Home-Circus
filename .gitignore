@@ -1,2 +1,8 @@
+# Environment variables
 .env
+
+# Ollama data (LLMs)
 .ollama
+
+# Authelia secrets
+secrets/

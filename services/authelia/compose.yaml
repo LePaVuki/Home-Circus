@@ -5,11 +5,15 @@ services:
       dockerfile: authelia.Dockerfile
     container_name: authelia
     environment:
-      - TZ=UTC
+      TZ: UTC
+      AUTHELIA_JWT_SECRET_FILE: secrets/jwt_secret
+      AUTHELIA_SESSION_SECRET_FILE: secrets/session_secret
+      AUTHELIA_STORAGE_ENCRYPTION_KEY_FILE: secrets/storage_encryption_key
     networks:
       - frontend
     volumes:
       - ./config:/config
+      - ./secrets:/secrets
     restart: unless-stopped
     healthcheck:
       test: ["CMD", "/app/healthcheck.sh"]
