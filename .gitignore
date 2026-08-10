@@ -1,10 +1,8 @@
 # Environment variables
 .env
 
-# Ollama data (LLMs)
-.ollama
-
 # Authelia secrets
 secrets/
-*.sqlite3
-notification.txt
+
+# Services data (e.g., Authelia users database, ollama models, etc.)
+data/

@@ -4,7 +4,7 @@
 
 (authelia-auth) {
     forward_auth authelia:9091 {
-        uri /api/verify?rd=https://{$ROOT_DOMAIN}/
+        uri /api/verify?rd=https://auth.{$ROOT_DOMAIN}/
         copy_headers Remote-User Remote-Groups Remote-Name Remote-Email
     }
 }

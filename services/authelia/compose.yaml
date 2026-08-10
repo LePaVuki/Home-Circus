@@ -17,6 +17,7 @@ services:
     volumes:
       - ./config:/config
       - ./secrets:/secrets:ro
+      - ../../data/authelia:/data
     restart: unless-stopped
     healthcheck:
       test: ["CMD", "/app/healthcheck.sh"]

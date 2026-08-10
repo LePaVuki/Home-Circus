@@ -13,8 +13,10 @@ set -euo pipefail
 # 2. GLOBAL CONFIGURATION & CONSTANTS
 # ==============================================================================
 readonly SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
-readonly SECRETS_DIR="./services/authelia/secrets"
-readonly ENV_FILE="./.env"
+readonly SECRETS_DIR="$SCRIPT_DIR/services/authelia/secrets"
+readonly CONFIG_DIR="$SCRIPT_DIR/services/authelia/config"
+readonly DATA_DIR="$SCRIPT_DIR/data/authelia"
+readonly ENV_FILE="$SCRIPT_DIR/.env"
 readonly FILES=(jwt_secret session_secret storage_encryption_key)
 
 
@@ -44,7 +46,7 @@ log_error() {
 
 
 # ==============================================================================
-# 4. DEPLOYMENT STEPS (Separated by 2 blank lines)
+# 4. DEPLOYMENT STEPS
 # ==============================================================================
 check_prerequisites() {
     log_info "Checking system requirements..."
@@ -104,6 +106,20 @@ generate_secrets() {
     done
 }
 
+generate_default_user() {
+    log_info "Generating default user for Authelia..."
+    
+    # Check if the default user already exists
+    if [ -f "$DATA_DIR/users_database.yml" ]; then
+        log_skip "Default user already exists — not overwriting"
+        return
+    fi
+
+    log_info "Creating default user with username 'admin' and a generated password..."
+    if (docker run --rm -it -v $CONFIG_DIR/configuration.yml:/configuration.yml authelia/authelia:latest authelia crypto hash generate --config /configuration.yml); then
+    
+    log_success "Default user created with username 'admin' and a generated password. Credentials saved in $SECRETS_DIR/default_user.txt"
+}
 
 launch_containers() {
     log_info "Starting Docker Compose services..."
