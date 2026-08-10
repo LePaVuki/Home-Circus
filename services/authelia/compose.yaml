@@ -6,9 +6,17 @@ services:
     container_name: authelia
     environment:
       TZ: UTC
-      AUTHELIA_JWT_SECRET_FILE: secrets/jwt_secret
-      AUTHELIA_SESSION_SECRET_FILE: secrets/session_secret
-      AUTHELIA_STORAGE_ENCRYPTION_KEY_FILE: secrets/storage_encryption_key
+      AUTHELIA_JWT_SECRET_FILE: 'secrets/jwt_secret'
+      AUTHELIA_SESSION_SECRET_FILE: 'secrets/session_secret'
+      AUTHELIA_STORAGE_ENCRYPTION_KEY_FILE: 'secrets/storage_encryption_key'
+      AUTHELIA_SESSION_COOKIES_0_DEFAULT_REDIRECTION_URL: 'https://auth.${ROOT_DOMAIN}'
+      AUTHELIA_SESSION_COOKIES_0_DOMAIN: '${ROOT_DOMAIN}'
+      AUTHELIA_SESSION_COOKIES_0_AUTHELIA_URL: 'https://auth.${ROOT_DOMAIN}'
+      AUTHELIA_ACCESS_CONTROL_0_DOMAIN: 'auth.${ROOT_DOMAIN}'
+      AUTHELIA_ACCESS_CONTROL_0_POLICY: 'bypass'
+      AUTHELIA_ACCESS_CONTROL_1_DOMAIN: '*.${ROOT_DOMAIN}'
+      AUTHELIA_ACCESS_CONTROL_1_POLICY: 'two_factor'
+
     networks:
       - frontend
     volumes:
