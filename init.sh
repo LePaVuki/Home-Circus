@@ -108,7 +108,7 @@ generate_secrets() {
 launch_containers() {
     log_info "Starting Docker Compose services..."
     
-    docker compose up -d --build
+    docker compose up -d
     
     log_success "Application deployed successfully!"
 }
@@ -122,7 +122,7 @@ main() {
     
     check_prerequisites
     generate_secrets
-    # launch_containers
+    launch_containers
     
     log_success "=== Deployment Finished Successfully ==="
 }

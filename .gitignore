@@ -6,3 +6,5 @@
 
 # Authelia secrets
 secrets/
+*.sqlite3
+notification.txt
