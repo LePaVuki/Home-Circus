@@ -1,7 +1,24 @@
 {
-    email {$ACME_EMAIL}
+    email {$ADMIN_EMAIL}
 }
 
-{$CADDY_DOMAIN} {
+(authenticate) {
+    forward_auth authelia:9091 {
+    uri /api/authz/forward-auth
+    copy_headers Remote-User Remote-Groups Remote-Name Remote-Email
+  }
+}
+
+auth.{$ROOT_DOMAIN} {
+    reverse_proxy authelia:9091
+}
+
+chat.{$ROOT_DOMAIN} {
+    import authenticate
+    reverse_proxy open-webui:8080
+}
+
+{$ROOT_DOMAIN} {
+    import authenticate
     reverse_proxy open-webui:8080
 }

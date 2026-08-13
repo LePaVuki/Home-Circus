@@ -1,2 +1,8 @@
+# Environment variables
 .env
-.ollama
+
+# Authelia secrets
+secrets/
+
+# Services data (e.g., Authelia users database, ollama models, etc.)
+data/

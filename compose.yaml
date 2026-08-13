@@ -10,6 +10,7 @@ networks:
 
 include:
   - services/caddy/compose.yaml
+  - services/authelia/compose.yaml
   - services/open-webui/compose.yaml
   - services/ollama-gpu/compose.yaml
   - services/open-terminal/compose.yaml

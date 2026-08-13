@@ -1,0 +1,61 @@
+###############################################################
+#                   Authelia configuration                    #
+###############################################################
+
+server:
+  address: 'tcp://0.0.0.0:9091/'
+
+log:
+  level: 'info'
+
+totp:
+  issuer: 'authelia.com'
+
+identity_validation:
+  reset_password:
+    # jwt_secret: REMOVED and handled by the environment variable AUTHELIA_JWT_SECRET_FILE
+
+authentication_backend:
+  file:
+    path: '/data/users.yml'
+    watch: true
+    search:
+      email: true
+      case_insensitive: false
+    password:
+      algorithm: 'argon2'
+
+access_control:
+  default_policy: 'deny'
+  rules:
+    - domain: '{{ printf "auth.%s" (mustEnv "ROOT_DOMAIN") }}'
+      policy: 'bypass'
+    - domain: '{{ printf "*.%s" (mustEnv "ROOT_DOMAIN") }}'
+      policy: 'two_factor'
+    - domain: '{{ mustEnv "ROOT_DOMAIN" }}'
+      policy: 'two_factor'
+
+session:
+  name: 'authelia_session'
+  # secret: REMOVED and handled by the environment variable AUTHELIA_SESSION_SECRET_FILE
+  cookies:
+    - domain: '{{ mustEnv "ROOT_DOMAIN" }}'
+      authelia_url: '{{ printf "https://auth.%s" (mustEnv "ROOT_DOMAIN") }}'
+      expiration: '1 hour'
+      inactivity: '5 minutes'
+
+regulation:
+  modes:
+    - 'ip'
+  max_retries: 3
+  find_time: '2 minutes'
+  ban_time: '5 minutes'
+
+storage:
+  # encryption_key: REMOVED and handled by the environment variable AUTHELIA_STORAGE_ENCRYPTION_KEY_FILE
+  local:
+    path: '/data/db.sqlite3'
+
+notifier:
+  filesystem:
+    filename: '/data/notification.txt'

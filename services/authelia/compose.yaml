@@ -1,0 +1,27 @@
+services:
+  authelia:
+    build:
+      context: ./
+      dockerfile: authelia.Dockerfile
+    container_name: authelia
+    environment:
+      TZ: UTC
+      X_AUTHELIA_CONFIG_FILTERS: template
+      AUTHELIA_IDENTITY_VALIDATION_RESET_PASSWORD_JWT_SECRET_FILE: '/secrets/jwt_secret'
+      AUTHELIA_SESSION_SECRET_FILE: '/secrets/session_secret'
+      AUTHELIA_STORAGE_ENCRYPTION_KEY_FILE: '/secrets/storage_encryption_key'
+      ROOT_DOMAIN: ${ROOT_DOMAIN}
+
+    networks:
+      - frontend
+    volumes:
+      - ./config:/config
+      - ./secrets:/secrets:ro
+      - ../../data/authelia:/data
+    restart: unless-stopped
+    healthcheck:
+      test: ["CMD", "/app/healthcheck.sh"]
+      interval: 30s
+      timeout: 3s
+      retries: 3
+      start_period: 1m
