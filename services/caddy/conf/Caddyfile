@@ -1,12 +1,12 @@
 {
-    email {$ACME_EMAIL}
+    email {$ADMIN_EMAIL}
 }
 
-(authelia-auth) {
+(authenticate) {
     forward_auth authelia:9091 {
-        uri /api/verify?rd=https://auth.{$ROOT_DOMAIN}/
-        copy_headers Remote-User Remote-Groups Remote-Name Remote-Email
-    }
+    uri /api/authz/forward-auth
+    copy_headers Remote-User Remote-Groups Remote-Name Remote-Email
+  }
 }
 
 auth.{$ROOT_DOMAIN} {
@@ -14,6 +14,11 @@ auth.{$ROOT_DOMAIN} {
 }
 
 chat.{$ROOT_DOMAIN} {
-    import authelia-auth
+    import authenticate
+    reverse_proxy open-webui:8080
+}
+
+{$ROOT_DOMAIN} {
+    import authenticate
     reverse_proxy open-webui:8080
 }

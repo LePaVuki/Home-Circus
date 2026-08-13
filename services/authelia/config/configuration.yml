@@ -3,7 +3,7 @@
 ###############################################################
 
 server:
-  address: 'tcp://:9091'
+  address: 'tcp://0.0.0.0:9091/'
 
 log:
   level: 'info'
@@ -17,7 +17,13 @@ identity_validation:
 
 authentication_backend:
   file:
-    path: '/data/users_database.yml'
+    path: '/data/users.yml'
+    watch: true
+    search:
+      email: true
+      case_insensitive: false
+    password:
+      algorithm: 'argon2'
 
 access_control:
   default_policy: 'deny'
@@ -25,6 +31,8 @@ access_control:
     - domain: '{{ printf "auth.%s" (mustEnv "ROOT_DOMAIN") }}'
       policy: 'bypass'
     - domain: '{{ printf "*.%s" (mustEnv "ROOT_DOMAIN") }}'
+      policy: 'two_factor'
+    - domain: '{{ mustEnv "ROOT_DOMAIN" }}'
       policy: 'two_factor'
 
 session:
