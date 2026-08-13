@@ -5,8 +5,8 @@ services:
       dockerfile: caddy.Dockerfile
     container_name: caddy
     environment:
-      - ACME_EMAIL=$ACME_EMAIL
-      - CADDY_DOMAIN=$CADDY_DOMAIN
+      - ADMIN_EMAIL=$ADMIN_EMAIL
+      - ROOT_DOMAIN=$ROOT_DOMAIN
     networks:
       - frontend
     ports:
@@ -18,7 +18,9 @@ services:
       - caddy-data:/data
       - caddy-config:/config
     depends_on:
-      open-webui:
+      # open-webui:
+      #   condition: service_healthy
+      authelia:
         condition: service_healthy
     restart: unless-stopped
 
