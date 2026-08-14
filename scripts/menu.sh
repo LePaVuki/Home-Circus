@@ -1,15 +1,13 @@
 #!/bin/bash
 # menu.sh
 
-# ==============================================================================
-# 1. GLOBAL CONFIGURATION & CONSTANTS
-# ==============================================================================
+# GLOBAL CONFIGURATION & CONSTANTS
 readonly ROOT_DIR=$(cd -- "$(dirname -- "${BASH_SOURCE}")" &> /dev/null && pwd)
 readonly TASKS_DIR="$ROOT_DIR/tasks"
 readonly UTILS_DIR="$ROOT_DIR/utils"
 readonly DEBUG_MODE=false
 
-# 1. SOURCE the infrastructure libraries (Loads them into memory)
+# SOURCE the infrastructure libraries (Loads them into memory)
 if [ -f "$UTILS_DIR/logging.sh" ] && [ -f "$UTILS_DIR/execute.sh" ]; then
     source "$UTILS_DIR/logging.sh"
     source "$UTILS_DIR/execute.sh"
@@ -18,7 +16,7 @@ else
     exit 1
 fi
 
-# 2. Parse the command-line arguments
+# Parse the command-line arguments
 while [[ $# -gt 0 ]]; do
     case $1 in
         -d|--debug)
@@ -36,7 +34,7 @@ log_debug "DEBUG MODE ACTIVE!"
 
 while true; do
 
-    # 3. Read executable task files into a Bash array
+    # Read executable task files into a Bash array
     tasks=()
     while IFS= read -r -d '' file; do
         tasks+=("$file")
@@ -45,7 +43,7 @@ while true; do
     total_tasks=${#tasks[@]}
     log_debug "Found $total_tasks task(s) in $TASKS_DIR"
 
-    # 4. Render the dynamic UI
+    # Render the dynamic UI
     echo "================================="
     echo "       DYNAMIC CONTROL CLI       "
     echo "================================="
@@ -71,7 +69,7 @@ while true; do
         exit 0
     fi
 
-    # 5. Route selection to the execute function
+    # Route selection to the execute function
     if [[ "$choice" =~ ^[0-9]+$ ]] && [ "$choice" -ge 1 ] && [ "$choice" -le "$total_tasks" ]; then
         target_index=$((choice - 1))
         target_script="${tasks[$target_index]}"
