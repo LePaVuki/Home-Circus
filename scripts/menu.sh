@@ -1,14 +1,18 @@
 #!/bin/bash
 # menu.sh
 
-# 0. Dynamically find the project root and tasks directory
-ROOT_DIR=$(cd -- "$(dirname -- "${BASH_SOURCE}")" &> /dev/null && pwd)
-TASKS_DIR="$ROOT_DIR/tasks"
+# ==============================================================================
+# 1. GLOBAL CONFIGURATION & CONSTANTS
+# ==============================================================================
+readonly ROOT_DIR=$(cd -- "$(dirname -- "${BASH_SOURCE}")" &> /dev/null && pwd)
+readonly TASKS_DIR="$ROOT_DIR/tasks"
+readonly UTILS_DIR="$ROOT_DIR/utils"
+readonly DEBUG_MODE=false
 
 # 1. SOURCE the infrastructure libraries (Loads them into memory)
-if [ -f "$ROOT_DIR/utils/logging.sh" ] && [ -f "$ROOT_DIR/utils/execute.sh" ]; then
-    source "$ROOT_DIR/utils/logging.sh"
-    source "$ROOT_DIR/utils/execute.sh"
+if [ -f "$UTILS_DIR/logging.sh" ] && [ -f "$UTILS_DIR/execute.sh" ]; then
+    source "$UTILS_DIR/logging.sh"
+    source "$UTILS_DIR/execute.sh"
 else
     echo "[ERROR] Missing core utilities in utils/ directory!" >&2
     exit 1
