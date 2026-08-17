@@ -38,7 +38,10 @@ while [[ $# -gt 0 ]]; do
     esac
 done
 
+# Notify the user if debug mode is active
 log_debug "DEBUG MODE ACTIVE!"
+# Load environment variables from .env file
+load_env
 
 while true; do
 
