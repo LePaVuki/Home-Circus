@@ -41,8 +41,8 @@ session:
   cookies:
     - domain: '{{ mustEnv "ROOT_DOMAIN" }}'
       authelia_url: '{{ printf "https://auth.%s" (mustEnv "ROOT_DOMAIN") }}'
-      expiration: '1 hour'
-      inactivity: '5 minutes'
+      expiration: '6h'
+      inactivity: '30m'
 
 regulation:
   modes:
