@@ -24,7 +24,7 @@ check_prerequisites() {
     log_debug "Looking for .env file at: $ENV_FILE"
 
     if [ ! -f "$ENV_FILE" ]; then
-        log_error "Failed to create $ENV_FILE"
+        log_error "Failed to find $ENV_FILE"
         exit 1
     fi
 
