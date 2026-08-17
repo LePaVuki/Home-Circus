@@ -26,7 +26,7 @@ generate_default_user() {
     fi
 
     log_info "Creating default user credentials..."
-    ADMIN_HASH=$(docker run --rm -it \
+    ADMIN_HASH=$(docker run --rm \
         authelia/authelia:latest \
         authelia crypto hash generate \
         --password "$ADMIN_PASSWORD" \
@@ -34,10 +34,7 @@ generate_default_user() {
         | awk '/^Digest:/ {print $2}' \
         || { log_error "Failed to generate default user"; exit 1; } )
 
-    log_info "Default user created with credentials:"
-    log_success "Username: $ADMIN_USERNAME"
-    log_success "Password: $ADMIN_PASSWORD"
-    log_debug "Password Hash: $ADMIN_HASH"
+    log_success "Default user credentials generated successfully."
 
     log_info "Writing default user to $AUTHELIA_DATA_DIR/users.yml..."
     if touch "$AUTHELIA_DATA_DIR/users.yml"; then
