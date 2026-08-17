@@ -9,7 +9,7 @@ log:
   level: 'info'
 
 totp:
-  issuer: 'authelia.com'
+  issuer: 'Home Circus'
 
 identity_validation:
   reset_password:
