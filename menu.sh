@@ -1,13 +1,26 @@
 #!/bin/bash
 # menu.sh
 
-# GLOBAL CONFIGURATION & CONSTANTS
-readonly ROOT_DIR=$(cd -- "$(dirname -- "${BASH_SOURCE}")" &> /dev/null && pwd)
-readonly TASKS_DIR="$ROOT_DIR/tasks"
-readonly UTILS_DIR="$ROOT_DIR/utils"
-readonly DEBUG_MODE=false
+set -euo pipefail
+# -e: Exit immediately if any command returns a non-zero status
+# -u: Treat unset variables as an error and exit immediately
+# -o pipefail: Prevents errors in a pipeline from being masked
 
-# SOURCE the infrastructure libraries (Loads them into memory)
+# GLOBAL CONFIGURATION & CONSTANTS
+export readonly ROOT_DIR=$(cd -- "$(dirname -- "${BASH_SOURCE}")" &> /dev/null && pwd)
+export readonly SCRIPT_DIR="$ROOT_DIR/scripts"
+export readonly TASKS_DIR="$SCRIPT_DIR/tasks"
+export readonly UTILS_DIR="$SCRIPT_DIR/utils"
+export readonly ENV_FILE="$ROOT_DIR/.env"
+export readonly DEBUG_MODE=false
+
+# Paths for Authelia
+export readonly AUTHELIA_SECRETS_DIR="$ROOT_DIR/services/authelia/secrets"
+export readonly AUTHELIA_CONFIG_DIR="$ROOT_DIR/services/authelia/config"
+export readonly AUTHELIA_DATA_DIR="$ROOT_DIR/data/authelia"
+export readonly SECRET_FILES=(jwt_secret session_secret storage_encryption_key)
+
+# SOURCE the infrastructure libraries
 if [ -f "$UTILS_DIR/logging.sh" ] && [ -f "$UTILS_DIR/execute.sh" ]; then
     source "$UTILS_DIR/logging.sh"
     source "$UTILS_DIR/execute.sh"

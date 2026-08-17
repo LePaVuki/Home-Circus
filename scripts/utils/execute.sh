@@ -1,13 +1,13 @@
 #!/bin/bash
 # utils/execute.sh
 
-# Safety guard to prevent direct execution
+# Ensure this file is only sourced, never executed directly
 if [[ "${BASH_SOURCE}" == "${0}" ]]; then
     echo "Error: This script must be sourced, not executed directly." >&2
     exit 1
 fi
 
-# central execution wrapper
+# Central execution wrapper
 # Usage: run_task_script "/path/to/script.sh" "arg1" "arg2"
 run_task_script() {
     local target_path="$1"
@@ -24,7 +24,7 @@ run_task_script() {
 
     log_debug "Executing task: $script_name..."
 
-    # 2. ROBUST CROSS-PLATFORM EXECUTION
+    # ROBUST CROSS-PLATFORM EXECUTION
     # Try running directly if permissions allow; fallback to explicit bash interpreter for Windows
     if [ -x "$target_path" ]; then
         log_debug "Running $script_name directly (has execute permissions)."
@@ -37,7 +37,7 @@ run_task_script() {
         local exit_code=$?
     fi
 
-    # 3. Standardized telemetry and output logging
+    # Standardized telemetry and output logging
     if [ $exit_code -eq 0 ]; then
         log_debug "$script_name completed successfully."
     else
