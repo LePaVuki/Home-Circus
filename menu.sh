@@ -52,6 +52,7 @@ while true; do
     done < <(find "$TASKS_DIR" -maxdepth 1 -type f -name "*.sh" -print0 | sort -z)
 
     total_tasks=${#tasks[@]}
+    big_tasks=0
     log_debug "Found $total_tasks task(s) in $TASKS_DIR"
 
     # Render the dynamic UI
@@ -64,18 +65,23 @@ while true; do
     else
         for i in "${!tasks[@]}"; do
             display_name=$(basename "${tasks[$i]}" .sh)
+            # Hardcoded separator position (TODO change to dynamic)
+            if [[ "${i}" == "2" ]]; then
+            echo "================================="
+            fi
             display_name=$(echo "$display_name" | sed 's/^[_-]//' | tr '_-' ' ' | sed -e 's/\b\(.\)/\u\1/g')
             echo "$((i + 1))) $display_name"
         done
     fi
     
-    echo "$((total_tasks + 1))) Exit"
     echo "================================="
-    echo -n "Enter your choice [1-$((total_tasks + 1))]: "
+    echo "$((0))) Exit"
+    echo "================================="
+    echo -n "Enter your choice [0-$((total_tasks))]: "
     read -r choice
 
     # Validate if user wants to exit
-    if [ "$choice" -eq "$((total_tasks + 1))" ] 2>/dev/null; then
+    if [ "$choice" -eq "$((0))" ] 2>/dev/null; then
         log_success "Exiting tool. Goodbye!"
         exit 0
     fi
