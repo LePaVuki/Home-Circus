@@ -21,7 +21,7 @@ generate_default_user() {
     fi
     # Check if the data directory exists
     if [ ! -d "$AUTHELIA_DATA_DIR" ]; then
-        log_info "Data directory does not exist. Creating: $AUTHELIA_DATA_DIR"
+        log_warning "Data directory does not exist. Creating: $AUTHELIA_DATA_DIR"
         mkdir -p "$AUTHELIA_DATA_DIR" || { log_error "Failed to create data directory: $AUTHELIA_DATA_DIR"; exit 1; }
     fi
 
