@@ -13,6 +13,7 @@ GREEN='\033[1;32m'
 BLUE='\033[1;34m'
 CYAN='\033[1;36m'
 YELLOW='\033[1;33m'
+ORANGE='\033[1;38;5;214m'
 NC='\033[0m' # No Color
 
 log_info() {
@@ -30,6 +31,10 @@ log_skip() {
 log_error() {
     # >&2 redirects the error message to standard error (stderr) instead of stdout
     echo -e "[${RED}ERROR${NC}] $1" >&2
+}
+
+log_warning() {
+    echo -e "[${ORANGE}WARNING${NC}] $1"
 }
 
 log_debug() {
