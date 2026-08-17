@@ -66,7 +66,7 @@ while true; do
         for i in "${!tasks[@]}"; do
             display_name=$(basename "${tasks[$i]}" .sh)
             # Hardcoded separator position (TODO change to dynamic)
-            if [[ "${i}" == "3" ]]; then
+            if [[ "${i}" == "4" ]]; then
             echo "================================="
             fi
             display_name=$(echo "$display_name" | sed 's/^[_-]//' | tr '_-' ' ' | sed -e 's/\b\(.\)/\u\1/g')
