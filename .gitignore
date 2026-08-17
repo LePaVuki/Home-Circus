@@ -6,3 +6,6 @@ secrets/
 
 # Services data (e.g., Authelia users database, ollama models, etc.)
 data/
+
+# Continue extension data
+.continue
