@@ -10,7 +10,7 @@ launch_containers() {
     
     docker compose up -d
     
-    log_success "Application deployed successfully!"
+    log_success "Docker Compose services successfully started!"
 }
 
 main() {
