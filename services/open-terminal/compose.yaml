@@ -6,8 +6,6 @@ services:
     container_name: open-terminal
     networks:
       - backend
-    ports:
-      - "4000:8000"
     volumes:
       - open-terminal:/home/user
     env_file: .env
