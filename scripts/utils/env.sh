@@ -30,7 +30,7 @@ load_env() {
 
         # 4. Double check that the key actually contains text before exporting
         if [ -n "$key" ]; then
-        export "$key"="$value"
+        export readonly "$key"="$value"
         variables_loaded=$((variables_loaded + 1))
         log_debug "Exported: $key=$value"
         else
