@@ -15,10 +15,8 @@ export readonly ENV_FILE="$ROOT_DIR/.env"
 export readonly DEBUG_MODE=false
 
 # Paths for Authelia
-export readonly AUTHELIA_SECRETS_DIR="$ROOT_DIR/services/authelia/secrets"
 export readonly AUTHELIA_CONFIG_DIR="$ROOT_DIR/services/authelia/config"
 export readonly AUTHELIA_DATA_DIR="$ROOT_DIR/data/authelia"
-export readonly SECRET_FILES=(jwt_secret session_secret storage_encryption_key)
 
 # SOURCE the infrastructure libraries
 if [ -f "$UTILS_DIR/logging.sh" ] && [ -f "$UTILS_DIR/execute.sh" ]; then

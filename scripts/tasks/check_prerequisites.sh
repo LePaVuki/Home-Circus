@@ -2,9 +2,6 @@
 # check_prerequisites.sh
 
 set -euo pipefail
-# -e: Exit immediately if any command returns a non-zero status
-# -u: Treat unset variables as an error and exit immediately
-# -o pipefail: Prevents errors in a pipeline from being masked
 
 source "$UTILS_DIR/logging.sh"
 
