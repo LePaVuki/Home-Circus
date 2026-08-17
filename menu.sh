@@ -64,8 +64,8 @@ while true; do
     else
         for i in "${!tasks[@]}"; do
             display_name=$(basename "${tasks[$i]}" .sh)
-            display_name=$(echo "$display_name" | tr '_-' ' ' | sed -e 's/\b\(.\)/\u\1/g')
-            echo "$((i + 1))) Run $display_name"
+            display_name=$(echo "$display_name" | sed 's/^[_-]//' | tr '_-' ' ' | sed -e 's/\b\(.\)/\u\1/g')
+            echo "$((i + 1))) $display_name"
         done
     fi
     
