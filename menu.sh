@@ -15,9 +15,10 @@ export readonly ENV_FILE="$ROOT_DIR/.env"
 export readonly DEBUG_MODE=false
 
 # SOURCE the infrastructure libraries
-if [ -f "$UTILS_DIR/logging.sh" ] && [ -f "$UTILS_DIR/execute.sh" ]; then
+if [ -f "$UTILS_DIR/logging.sh" ] && [ -f "$UTILS_DIR/execute.sh" ] && [ -f "$UTILS_DIR/env.sh" ]; then
     source "$UTILS_DIR/logging.sh"
     source "$UTILS_DIR/execute.sh"
+    source "$UTILS_DIR/env.sh"
 else
     echo "[ERROR] Missing core utilities in utils/ directory!" >&2
     exit 1

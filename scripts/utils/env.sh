@@ -1,11 +1,13 @@
 #!/usr/bin/env bash
-# load_env_variables.sh
+# env.sh
 
-set -euo pipefail
+# Ensure this file is only sourced, never executed directly
+if [[ "${BASH_SOURCE}" == "${0}" ]]; then
+    echo "Error: This script must be sourced, not executed directly." >&2
+    exit 1
+fi
 
-source "$UTILS_DIR/logging.sh"
-
-load_env_variables() {
+load_env() {
     log_info "Loading environment variables from $ENV_FILE..."
     variables_loaded=0
     if [ ! -f "$ENV_FILE" ]; then
@@ -42,9 +44,3 @@ load_env_variables() {
         log_success "$variables_loaded environment variables loaded successfully."
     fi
 }
-
-main() {
-    load_env_variables
-}
-
-main

@@ -8,6 +8,7 @@ readonly AUTHELIA_DATA_DIR="$ROOT_DIR/data/authelia"
 
 source "$UTILS_DIR/logging.sh"
 
+
 generate_default_user() {
     log_info "Generating default user for Authelia..."
     log_debug "Data directory: $AUTHELIA_DATA_DIR"
