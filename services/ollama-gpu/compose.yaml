@@ -5,7 +5,7 @@ services:
       dockerfile: ollama.Dockerfile
     container_name: ollama-gpu
     environment:
-      DEFAULT_CONTEXT_SIZE: ${OLLAMA_DEFAULT_CONTEXT_SIZE}
+      OLLAMA_CONTEXT_LENGTH: ${OLLAMA_CONTEXT_LENGTH}
     networks:
       - backend
     ports:
