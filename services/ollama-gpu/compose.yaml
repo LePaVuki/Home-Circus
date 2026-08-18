@@ -4,6 +4,8 @@ services:
       context: ./
       dockerfile: ollama.Dockerfile
     container_name: ollama-gpu
+    environment:
+      OLLAMA_CONTEXT_LENGTH: ${OLLAMA_CONTEXT_LENGTH}
     networks:
       - backend
     ports:
