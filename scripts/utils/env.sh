@@ -52,11 +52,11 @@ load_env() {
         case "$line" in
             \#* | "" | [[:space:]]*) continue ;;
         esac
-
+        
         # 3. Parse the key and value
         key=$(echo "$line" | cut -d '=' -f 1)
         value=$(echo "$line" | cut -d '=' -f 2-)
-
+        
         # 4. Double check that the key actually contains text before exporting
         if [ -n "$key" ]; then
         export readonly "$key"="$value"
@@ -66,7 +66,7 @@ load_env() {
             log_warning "Malformed line in .env file: '$line'. Skipping."
         fi
     done < "$ENV_FILE"
-
+    
     if [ $variables_loaded -eq 0 ]; then
         log_warning "No valid environment variables were found in $ENV_FILE."
     else
