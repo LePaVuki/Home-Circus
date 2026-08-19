@@ -9,17 +9,17 @@ fi
 
 validate_env() {
     log_info "Validating required environment variables..."
-    local required_vars=("ROOT_DOMAIN" "ADMIN_USERNAME" "ADMIN_PASSWORD" "ADMIN_EMAIL")
-    local missing_vars=""
+    log_debug "Required variables to validate: ${REQUIRED_VARS[*]}"
+    local MISSING_VARS=""
     
-    for var in "${required_vars[@]}"; do
+    for var in "${REQUIRED_VARS[@]}"; do
         if [ -z "${!var+x}" ]; then
-            missing_vars="${missing_vars} ${var}"
+            MISSING_VARS="${MISSING_VARS} ${var}"
         fi
     done
     
-    if [ -n "$missing_vars" ]; then
-        log_error "Missing required environment variables: $missing_vars"
+    if [ -n "$MISSING_VARS" ]; then
+        log_error "Missing required environment variables: $MISSING_VARS"
         exit 1
     else
         log_success "All required environment variables are present"
