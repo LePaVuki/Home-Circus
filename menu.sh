@@ -1,6 +1,9 @@
 #!/bin/bash
 # menu.sh
 
+set +x
+# Disable debug output globally to prevent secrets leak
+
 set -euo pipefail
 # -e: Exit immediately if any command returns a non-zero status
 # -u: Treat unset variables as an error and exit immediately
