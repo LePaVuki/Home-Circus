@@ -68,8 +68,8 @@
 
 - [ ] Document frontend/backend network intent.
 - [ ] Document Ollama's intentional LAN host-port exception.
-- [x] Confirm firewall blocks WAN access to `11434`.
-- [x] Decide whether binding `11434` to a specific LAN address is preferable to all interfaces.
+- [ ] Confirm firewall blocks WAN access to `11434`.
+- [ ] Decide whether binding `11434` to a specific LAN address is preferable to all interfaces.
 - [x] Implement `ROOT_DOMAIN` → `chat.ROOT_DOMAIN` redirect.
 - [x] Preserve URI paths through the redirect.
 - [x] Verify no redirect/authentication loop and retest existing issue #6.
