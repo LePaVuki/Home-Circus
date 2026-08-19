@@ -32,11 +32,11 @@ load_env() {
         if [ -n "$key" ]; then
         export readonly "$key"="$value"
         variables_loaded=$((variables_loaded + 1))
-        log_debug "Exported: $key=$value"
+        log_debug "Exported environment variable: $key"
         else
             log_warning "Malformed line in .env file: '$line'. Skipping."
         fi
-    done < .env
+    done < "$ENV_FILE"
 
     if [ $variables_loaded -eq 0 ]; then
         log_warning "No valid environment variables were found in $ENV_FILE."
