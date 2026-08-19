@@ -70,9 +70,9 @@
 - [ ] Document Ollama's intentional LAN host-port exception.
 - [ ] Confirm firewall blocks WAN access to `11434`.
 - [ ] Decide whether binding `11434` to a specific LAN address is preferable to all interfaces.
-- [ ] Implement `ROOT_DOMAIN` → `chat.ROOT_DOMAIN` redirect.
-- [ ] Preserve URI paths through the redirect.
-- [ ] Verify no redirect/authentication loop and retest existing issue #6.
+- [x] Implement `ROOT_DOMAIN` → `chat.ROOT_DOMAIN` redirect.
+- [x] Preserve URI paths through the redirect.
+- [x] Verify no redirect/authentication loop and retest existing issue #6.
 
 ## P2 — Image/version management
 

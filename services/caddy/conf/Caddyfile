@@ -19,6 +19,5 @@ chat.{$ROOT_DOMAIN} {
 }
 
 {$ROOT_DOMAIN} {
-    import authenticate
-    reverse_proxy open-webui:8080
+    redir https://chat.{$ROOT_DOMAIN}{uri} permanent
 }
