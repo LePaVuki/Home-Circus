@@ -4,6 +4,7 @@
 set -euo pipefail
 
 source "$UTILS_DIR/logging.sh"
+source "$UTILS_DIR/env.sh"
 
 check_prerequisites() {
     log_info "Checking system requirements..."
@@ -22,12 +23,7 @@ check_prerequisites() {
 
     log_success "Docker Compose is installed. Checking for .env file..."
     log_debug "Looking for .env file at: $ENV_FILE"
-
-    if [ ! -f "$ENV_FILE" ]; then
-        log_error "Failed to find $ENV_FILE"
-        exit 1
-    fi
-
+    verify_env_file
     log_success ".env file is present"
 
     log_success "Prerequisites satisfied."

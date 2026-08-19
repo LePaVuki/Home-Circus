@@ -16,13 +16,13 @@
 
 **GitHub issue:** #12 — Harden global `.env` and secret handling
 
-- [ ] Fix `scripts/utils/env.sh` to read `$ENV_FILE`, not a hard-coded `.env`.
-- [ ] Never log environment variable values; debug output may only identify names/counts.
-- [ ] Validate required variables before deployment.
-- [ ] Audit scripts for accidental secret output and tracing (`set -x`).
-- [ ] Keep `.env` ignored and `.env.example` free of real credentials.
-- [ ] Keep generated Authelia secrets as `600` file-based secrets.
-- [ ] Rotate/revoke the old Open Terminal API key if it was a real credential.
+- [x] Fix `scripts/utils/env.sh` to read `$ENV_FILE`, not a hard-coded `.env`.
+- [x] Never log environment variable values; debug output may only identify names/counts.
+- [x] Validate required variables before deployment.
+- [x] Audit scripts for accidental secret output and tracing (`set -x`).
+- [x] Keep `.env` ignored and `.env.example` free of real credentials.
+- [x] Keep generated Authelia secrets as `600` file-based secrets.
+- [x] Rotate/revoke the old Open Terminal API key if it was a real credential.
 - [ ] Add secret scanning to CI.
 
 ## P1 — SemVer / release automation

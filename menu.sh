@@ -1,6 +1,9 @@
 #!/bin/bash
 # menu.sh
 
+set +x
+# Disable debug output globally to prevent secrets leak
+
 set -euo pipefail
 # -e: Exit immediately if any command returns a non-zero status
 # -u: Treat unset variables as an error and exit immediately
@@ -13,6 +16,7 @@ export readonly TASKS_DIR="$SCRIPT_DIR/tasks"
 export readonly UTILS_DIR="$SCRIPT_DIR/utils"
 export readonly ENV_FILE="$ROOT_DIR/.env"
 export readonly DEBUG_MODE=false
+export readonly REQUIRED_VARS=("ROOT_DOMAIN" "ADMIN_USERNAME" "ADMIN_PASSWORD" "ADMIN_EMAIL")
 
 # SOURCE the infrastructure libraries
 if [ -f "$UTILS_DIR/logging.sh" ] && [ -f "$UTILS_DIR/execute.sh" ] && [ -f "$UTILS_DIR/env.sh" ]; then
@@ -42,6 +46,8 @@ done
 log_debug "DEBUG MODE ACTIVE!"
 # Load environment variables from .env file
 load_env
+# Validate loaded environment variables
+validate_env
 
 while true; do
 
