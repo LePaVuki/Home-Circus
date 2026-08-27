@@ -5,7 +5,11 @@ services:
       dockerfile: ollama.Dockerfile
     container_name: ollama-gpu
     environment:
+      OLLAMA_DEBUG: ${OLLAMA_DEBUG}
+      OLLAMA_API_KEY: ${OLLAMA_API_KEY}
       OLLAMA_CONTEXT_LENGTH: ${OLLAMA_CONTEXT_LENGTH}
+      OLLAMA_KEEP_ALIVE: ${OLLAMA_KEEP_ALIVE}
+      OLLAMA_KV_CACHE_TYPE: ${OLLAMA_KV_CACHE_TYPE}
     networks:
       - backend
     ports:
